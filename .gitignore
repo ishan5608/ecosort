@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Data (large, owned by the organizers, don't commit)
+data/
+
+# Training outputs
+checkpoints/
+*.pt
+
+# Editor and OS files
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
