@@ -1,9 +1,19 @@
 import torch.nn as nn
 
+class EcoSortMLP(nn.Module):
+    def __init__(self, num_classes):
+        super().__init__()
+        self.flatten = nn.Flatten()
+        self.linear_relu_stack = nn.Sequential(
+            nn.Linear(3*96*96,432),
+            nn.ReLU(),
+            nn.Linear(432,6)
+        )
+
+    def forward(self,x):
+        x = self.flatten(x)
+        logits = self.linear_relu_stack(x)
+        return logits
+
 def build_model(num_classes=6):
-    return nn.Sequential(
-        nn.Conv2d(3, 16, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),    # 96 -> 48
-        nn.Conv2d(16, 32, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),   # 48 -> 24
-        nn.AdaptiveAvgPool2d(1), nn.Flatten(),
-        nn.Linear(32, num_classes),
-    )
+    return EcoSortMLP(num_classes = num_classes)
