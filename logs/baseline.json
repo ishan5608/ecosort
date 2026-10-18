@@ -12,7 +12,7 @@
   "best_val_acc": 0.666667,
   "best_epoch": 23,
   "epochs_run": 31,
-  "seconds": 74.7,
+  "seconds": 77.9,
   "checkpoint": "checkpoints/baseline_best.pt",
   "history": [
     {

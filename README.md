@@ -90,12 +90,14 @@ log in `logs/`.
 |---|---|---|---|---|---|
 | 001 | Basic placeholder model, used to check if the pipeline works. | 5286 | 66.67%| 23| Only meant to test the data loading, training, and logging end to end. Not a real attempt at the task. |
 | 002 | Fully connected model (Flatten, 432 hidden units) | 11,946,966 | 91.7% | 11 | Good accuracy, but 34x over the parameter limit and about 48 MB, so it cannot be submitted. |
-| 003 | + BatchNorm | <n> | <xx.x%> | <n> | <...> |
-| 004 | SGD with momentum instead of AdamW | <n> | <xx.x%> | <n> | Worse; reverted. <Reason.> |
+| 003 | 3 conv blocks (32, 64, 128), BatchNorm, ReLU, MaxPool, global average pooling, seed 42 | 94,470 | 97.9% | 7 | Best so far, not final yet |
+| 004 | Same model and settings, seed 0 | 94,470 | 100.0% | 21 | Accuracy swings a lot between epochs |
 
 **Notes**
 - **001:** Used a very small model (5,286 parameters) to check that data loading, training, and logging work. The accuracy is low because the model is too small for this task. The loss went down and validation accuracy improved to 66.7% by epoch 23, so the pipeline works end to end.
-- **002** Used a model with very large number of parameters(11,946,966) and got rejected by verify_submissions.py . When making the model I didn't account for the given restrictions and just made a simple MLP which was used in Pytorch official tutorial documentation. But during the process I learned how flatten works the hard way. Flatten scales a 96x96 image to 9216(i.e 96*96), this just increased the number of parameters used drastically. It also has 432 hidden parameters , I just did 9216/(batch_size) cause I didn't know how to decide ideal number of hidden parameters.  
+- **002:** Used a model with very large number of parameters(11,946,966) and got rejected by verify_submissions.py . When making the model I didn't account for the given restrictions and just made a simple MLP which was used in Pytorch official tutorial documentation. But during the process I learned how flatten works the hard way. Flatten scales a 96x96 image to 9216(i.e 96*96), this just increased the number of parameters used drastically. It also has 432 hidden parameters , I just did 9216/(batch_size) cause I didn't know how to decide ideal number of hidden parameters.  
+- **003:** My first CNN, with three conv blocks and BatchNorm. It has 94,470 parameters, which is under the 350,000 limit. Validation accuracy reached 97.9% at epoch 7 and training stopped at epoch 15. The validation numbers jumped between epochs, so this result could be partly luck. It isn't final until I check per-class accuracy, the ONNX export, and other seeds.
+- **004:** The same model with seed 0. It reached 100% at epoch 21, but validation accuracy dropped to 52% at epoch 14 and to 69% at epoch 29. The training curve is unstable, which is why I'm going to add a learning rate schedule next.
 
 ### Key observations
 
