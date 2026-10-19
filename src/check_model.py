@@ -8,7 +8,7 @@ from torchvision.transforms import v2
 from src.model import build_model
 
 ROOT_DATA = "data/public/val"
-CKPT = "checkpoints/cnn_v2_norm_seed0_best.pt"
+CKPT = "checkpoints/cnn_v2_norm_best.pt"
 ONNX = "models/model.onnx"
 
 transform = v2.Compose([
