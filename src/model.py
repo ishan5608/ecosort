@@ -31,6 +31,22 @@ class EcoSortCNN(nn.Module):
         x = self.pool(x).flatten(1)
         return self.classifier(x)
 
+class EcoSortCNNv3(nn.Module):
+    def __init__(self, num_classes):
+        super().__init__()
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 32, 3, padding = 1), nn.BatchNorm2d(32), nn.ReLU(), nn.MaxPool2d(2),
+            nn.Conv2d(32, 128, 3, padding = 1), nn.BatchNorm2d(128), nn.ReLU(), nn.MaxPool2d(2),
+            nn.Conv2d(128, 256, 3, padding = 1), nn.BatchNorm2d(256), nn.ReLU(), nn.MaxPool2d(2),
+        )
+        self.pool = nn.AdaptiveAvgPool2d(1)
+        self.classifier = nn.Linear(256, num_classes)
+
+    def forward(self,x):
+        x = self.features(x)
+        x = self.pool(x).flatten(1)
+        return self.classifier(x)
+
 
 def build_model(num_classes=6):
     return EcoSortCNN(num_classes = num_classes)
