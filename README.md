@@ -128,7 +128,6 @@ Every run is listed, including the ones that didn't help. Each run has a config 
 ## Key observations
 
 - **Normalization mattered most.** The same architecture scored 97.9% in PyTorch but 25.83% in the verifier, because the verifier normalizes its inputs and my training didn't.
-- **Glass and plastic were the most confused pair.** In the unnormalized model (cnn_v1), 4 of 40 glass images were predicted as plastic, and 1 plastic image was predicted as glass. Reflective surfaces may explain this, but I haven't tested that.
 - **Stability improved with normalization.** In the selected run, validation accuracy stayed between 98.3% and 100% from epoch 17 to epoch 25. Without normalization, it swung between about 50% and 100%.
 - **The selected model made no errors on the validation set.** Its confusion matrix is diagonal for all six classes, and PyTorch, ONNX, and the verifier agree.
 
@@ -153,5 +152,5 @@ Every run is listed, including the ones that didn't help. Each run has a config 
 - Operating system: Windows
 - Python: 3.12.10
 - PyTorch and onnxruntime: versions listed in `requirements.txt`
-- Hardware: laptop CPU with integrated graphics. All training ran on the CPU.
+- Hardware: Intel(R) Core(TM) 7 150U (1.80 GHz)
 - The ONNX export prints a version-conversion warning. The file was not modified, and it passes verification.
